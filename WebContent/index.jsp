@@ -12,5 +12,11 @@
 		<%
 		out.print("Bem vindo ao curso jsp");
 		%>
+		
+		<form action="receber-nome.jsp" >
+		<input name="nome">
+		<input name="idade">
+		<input type="submit" value="Enviar">
+		</form>
 	</body>
 </html>

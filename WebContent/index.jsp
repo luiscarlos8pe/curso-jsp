@@ -9,11 +9,10 @@
 	<body>
 		<h1>Bem vindo ao curso jsp </h1>
 		
-		<!-- <%
-		out.print("Bem vindo ao curso jsp");
-		%>*/ -->
+		
 		
 		<form action="ServletLogin" method="post">
+		<input type="hidden" value="<%= request.getParameter("url") %>" name="url">
 		<table>
 			<tr>
 				<td><label>Login:</label></td>

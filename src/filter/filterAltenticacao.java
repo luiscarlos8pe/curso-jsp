@@ -21,7 +21,7 @@ import connection.SingleConnectionBanco;
 @WebFilter(urlPatterns = {"/principal/*"})/*Interceptas todas as requisiçoes que vierem do projeto ou mapeamento*/
 public class filterAltenticacao implements Filter {
 
-	private static Connection connection;
+private static Connection connection;
 	
 
     public filterAltenticacao() {

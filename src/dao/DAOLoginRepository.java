@@ -19,7 +19,7 @@ public class DAOLoginRepository {
 	
 	public boolean validarAutenticacao(ModelLogin modelLogin) throws SQLException {
 		
-			String sql = "select * from tb_usuario where login = ? and senha = ? ";
+			String sql = "select * from model_login where login = ? and senha = ? ";
 			PreparedStatement consulta = connection.prepareStatement(sql);
 			
 			consulta.setString(1, modelLogin.getLogin());

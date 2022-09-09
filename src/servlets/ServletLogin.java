@@ -45,6 +45,7 @@ public class ServletLogin extends HttpServlet {
 	/*recebe os dados enviados por um formulario*/
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		String login = request.getParameter("login");
 		String senha = request.getParameter("senha");
 		String url = request.getParameter("url");
@@ -57,7 +58,7 @@ public class ServletLogin extends HttpServlet {
 					modelLogin.setLogin(login);
 					modelLogin.setSenha(senha);
 					
-					if (daoLoginRepository.validarAutenticacao(modelLogin)) { /*Simulando login*/
+					if (daoLoginRepository.validarAutenticacao(modelLogin)) { //verifica se o valor do retorno do banco é verdadeiro
 						
 						request.getSession().setAttribute("usuario", modelLogin.getLogin());
 						

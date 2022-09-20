@@ -19,6 +19,7 @@ public class DAOUsuarioRepository {
 
 	public ModelLogin gravarUsuario(ModelLogin modelLogin) throws SQLException {
 
+		if (modelLogin.isNovo()) {/*Grava um novo*/
 			String sql = "INSERT INTO model_login(nome, email, login, senha) VALUES ( ?, ?, ?, ?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 			
@@ -30,6 +31,22 @@ public class DAOUsuarioRepository {
 			insert.execute();
 			
 			connection.commit();
+			
+		}else {
+			String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=? WHERE id =  "+modelLogin.getId()+";";
+			
+			PreparedStatement prepareSql = connection.prepareStatement(sql);
+			
+			prepareSql.setString(1, modelLogin.getLogin());
+			prepareSql.setString(2, modelLogin.getSenha());
+			prepareSql.setString(3, modelLogin.getNome());
+			prepareSql.setString(4, modelLogin.getEmail());
+			
+			prepareSql.executeUpdate();
+			
+			connection.commit();
+			
+		}
 			
 			return this.consultarUsuario(modelLogin.getLogin());
 			
@@ -69,6 +86,19 @@ public class DAOUsuarioRepository {
 		
 		resutlado.next();/*Pra ele entrar nos resultados do sql*/
 		return resutlado.getBoolean("existe");
+		
+	}
+	
+	public void deletarUser(String idUser) throws Exception {
+		String sql = "DELETE FROM model_login WHERE id = ?;";
+		
+		PreparedStatement prepareSql = connection.prepareStatement(sql);
+		
+		prepareSql.setLong(1, Long.parseLong(idUser));
+		
+		prepareSql.executeUpdate();
+		
+		connection.commit();
 		
 	}
 

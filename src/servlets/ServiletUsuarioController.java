@@ -12,38 +12,53 @@ import javax.servlet.http.HttpServletResponse;
 import dao.DAOUsuarioRepository;
 import model.ModelLogin;
 
-
 @WebServlet("/ServiletUsuarioController")
 public class ServiletUsuarioController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 1L;
+	
+	
 	private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
 
     public ServiletUsuarioController() {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {	
-			
-			 String acao  = request.getParameter("acao");
+		
+	try {	
+		
+		 String acao  = request.getParameter("acao");
+		 
+		 if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
 			 
-			 if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletar")) {
+			 String idUser = request.getParameter("id");
+			 
+			 daoUsuarioRepository.deletarUser(idUser);
+			 
+			 request.setAttribute("msg", "Excluido com sucesso!");
+			 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+		 }
+		 else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarajax")) {
 				 
 				 String idUser = request.getParameter("id");
 				 
 				 daoUsuarioRepository.deletarUser(idUser);
 				 
-				 request.setAttribute("msg", "Excluido com sucesso!");
-			 }
-			 
+				 response.getWriter().write("Excluido com sucesso!");
+				 
+		 }else {
 			 request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
-			 
-			 
-			}catch (Exception e) {
-				e.printStackTrace();
-				RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
-				request.setAttribute("msg", e.getMessage());
-				redirecionar.forward(request, response);
-			}
+		 }
+		 
+		
+		 
+		 
+		}catch (Exception e) {
+			e.printStackTrace();
+			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
+			request.setAttribute("msg", e.getMessage());
+			redirecionar.forward(request, response);
+		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,17 +82,16 @@ public class ServiletUsuarioController extends HttpServlet {
 		modelLogin.setSenha(senha);
 		
 		
-		
 		if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
 			msg = "Já existe usuário com o mesmo login, informe outro login;";
 		}else {
-			
-			if(modelLogin.isNovo()) {
-				msg = "Gravado com sucesso";
+			if (modelLogin.isNovo()) {
+				msg = "Gravado com sucesso!";
 			}else {
-				msg = "Atualização com sucesso!";
+				msg= "Atualizado com sucesso!";
 			}
-		   modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
+			
+		    modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin);
 		}
 		
 		
@@ -93,4 +107,5 @@ public class ServiletUsuarioController extends HttpServlet {
 		}
 		
 	}
+
 }

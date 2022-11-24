@@ -154,7 +154,22 @@ function buscarUsuario() {
 	 var nomeBusca = document.getElementById('nomeBusca').value;
 	
 	 if(!nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != '' ){/* validando que tem valor para buscar no banco de dados*/ 
-		 alert(nomeBusca)
+		 
+		 var urlAction = document.getElementById('formUser').action;
+		 $.ajax({
+		     
+		     method: "get",
+		     url : urlAction,
+		     data : "nomeBusca=" + nomeBusca + '&acao=buscarUserAjax',
+		     success: function (response) {
+			 
+			
+		     }
+		     
+		 }).fail(function(xhr, status, errorThrown){
+		    alert('Erro ao buscar usuário por nome: ' + xhr.responseText);
+		 });
+	 
 	 }
 }
 
@@ -169,7 +184,7 @@ function criarDeleteComAjax() {
 	     
 	     method: "get",
 	     url : urlAction,
-	     data : "id=" + idUser + '&acao=deletarajax',
+	     data : "id=" + idUser + '&acao=deletarAjax',
 	     success: function (response) {
 		 
 		  limparForm();
